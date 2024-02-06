@@ -1,0 +1,259 @@
+@charset "utf-8";
+@use "sass:math";
+$contents_width: 1200px;
+$psd_width1: 1920;
+$psd_width2: 768;
+$psd_width3: 1024;
+$psd_width4: 1440;
+$psd_width5: 1200;
+$break_width1: 1230px;
+$break_width2: 1024px;
+$break_width3: 1024px;
+$break_width4: 1920px;
+$break_width5: 1440px;
+$font: 'Noto Sans JP', serif;
+$mplus:'M PLUS 1', sans-serif;
+$poppins:'Poppins', sans-serif;
+
+/******************************************
+*******************************************/
+$font_color: #5a5a5a;
+$link_color: #5a5a5a;
+$link_color_hover: #5a5a5a;
+
+$white:#fff;
+$gray: #d3d3d3;
+$black : #5a5a5a;
+$blue : #005293;
+$skyblue : #4a94bd;
+$brown : #b48573;
+$brown2 : #b06446;
+$lightblue: #3d9dde;
+$yellow : #ffdf0a;
+$pink : #ef4379;
+$orange: #EA7816;
+$green : #1E8A49;
+$lightgreen : #D0EDDF;
+$red : #b93333;
+
+
+/***********
+  サイズ変換
+************/
+// px -> vw 1024
+@function sp($value , $container:null){
+   @return round-decimal( math.div( $value , $psd_width3 ) * 100vw , 3 );
+   //@return round-decimal( calc( $value / 2 ) * 1px , 3 );
+}
+@function tb($value , $container:null){
+  @return round-decimal( math.div( $value , $psd_width5 ) * 66vw , 3 );
+}
+//0.625
+@function pcvw($value , $container:null){
+  @if($container == null){
+   @return round-decimal($value * 0.625px);
+  }
+}
+// px -> vw  1920
+@function vw($value){
+  @return round-decimal( math.div( $value , $psd_width1 ) * 100vw , 3 );
+}
+// px -> vw 
+@function lh($value , $value2:null){
+   @return round-decimal( math.div( $value2 , $value ) ,3);
+}
+
+@function pc($value){
+  @return clamp( #{ pcvw( $value ) }  , #{ vw( $value ) } , 100vw );
+  //@return round-decimal( math.div( $value , $psd_width1 ) * 100vw , 3 );
+}
+@function pc-($value){
+  @return min( #{ pcvw( $value ) }  , #{ vw( $value ) });
+  //@return round-decimal( math.div( $value , $psd_width1 ) * 100vw , 3 );
+}
+
+//clamp size
+@mixin spFontSize($value) {
+  font-size: clamp( #{ $value * 0.25px }  , #{ sp( $value ) } , #{ $value * 1px } );
+}
+@mixin pcFontSize($value) {
+  font-size: clamp( #{ pc( $value ) }  , #{ vw( $value ) } , #{ vw( $value ) } );
+}
+@mixin tbFontSize($value) {
+  font-size: clamp( #{ $value * 0.4px }  , #{ tb( $value ) } ,  #{ $value * 0.6px } );
+ }
+
+/*********
+ブレイクポイント
+**********/
+//minin
+@mixin pcBreak {
+    @media (min-width: ($break_width2 + 1px )) {
+      @content;
+    }
+  }
+  @mixin spBreak {
+    @media (max-width: ($break_width2)) {
+      @content;
+    }
+  }
+  @mixin tbBreak {
+    @media (min-width: ( $break_width2 + 1px  )) and (max-width: ( $break_width1 )) {
+      @content;
+    }
+  }
+ 
+
+/*********
+ホバー
+**********/
+@mixin hover_opacity($opacity: 0.5 , $easing : $easeOutQuart) {
+  @media (hover: hover) and (pointer: fine)  {
+    transition: 0.6s #{$easing};
+    &:hover {
+      transition: 0.4s #{$easing};
+      opacity: #{$opacity};
+    }
+}
+}
+@mixin hover_brightness($brightness: 1.2 , $easing : $easeOutQuart) {
+  @media (hover: hover) and (pointer: fine)  {
+    transition: 0.6s #{$easing};
+    &:hover {
+      transition: 0.4s #{$easing};
+      filter:brightness(#{$brightness});
+    }
+}
+}
+@mixin hover_line {
+  @media (hover: hover) and (pointer: fine)  {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+@mixin hover_unline {
+  @media (hover: hover) and (pointer: fine)  {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+@mixin hover_color($color: $skyblue  , $easing : $easeOutQuart) {
+  @media (hover: hover) and (pointer: fine)  {
+    transition: 0.6s #{$easing};
+    &:hover {
+      transition: 0.4s #{$easing};
+      color: #{$color};
+    }
+}
+}
+@mixin hover_scale($scale: 1.3 , $easing : $easeOutQuart) {
+  @media (hover: hover) and (pointer: fine)  {
+    transition: 0.6s #{$easing};
+    &:hover {
+      transition: 0.4s #{$easing};
+      transform: scale(#{$scale});
+    }
+}
+}
+
+
+
+//easing
+$easeInSine : cubic-bezier(0.47, 0, 0.745, 0.715);
+$easeOutSine: cubic-bezier(0.39, 0.575, 0.565, 1);
+$easeInOutSine: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+$easeInQuad: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+$easeOutQuad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+$easeInOutQuad:cubic-bezier(0.455, 0.03, 0.515, 0.955);
+$easeInCubic:cubic-bezier(0.55, 0.055, 0.675, 0.19);
+$easeOutCubic:cubic-bezier(0.215, 0.61, 0.355, 1);
+$easeInOutCubic:cubic-bezier(0.645, 0.045, 0.355, 1);
+$easeInQuart:cubic-bezier(0.895, 0.03, 0.685, 0.22);
+$easeOutQuart:cubic-bezier(0.165, 0.84, 0.44, 1);
+$easeInOutQuart:cubic-bezier(0.77, 0, 0.175, 1);
+$easeInQuint:cubic-bezier(0.755, 0.05, 0.855, 0.06);
+$easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
+$easeInOutQuint: cubic-bezier(0.86, 0, 0.07, 1);
+$easeInExpo:cubic-bezier(0.95, 0.05, 0.795, 0.035);
+$easeOutExpo: cubic-bezier(0.19, 1, 0.22, 1);
+$easeInOutExpo:cubic-bezier(1, 0, 0, 1);
+$easeInCirc:cubic-bezier(0.6, 0.04, 0.98, 0.335);
+$easeOutCirc: cubic-bezier(0.785, 0.135, 0.15, 0.86); 
+$easeInOutCirc:cubic-bezier(0.6, -0.28, 0.735, 0.045);
+$easeInBack:cubic-bezier(0.175, 0.885, 0.32, 1.275);
+$easeOutBack:cubic-bezier(0.68, -0.55, 0.265, 1.55);
+$easeLine:cubic-bezier(0, 0, 1, 1);
+
+// Round (四捨五入)
+@function round-decimal ($number, $digits: 0) {
+    @return to-fixed($number, $digits, 'round');
+}
+
+// Ceil (切り上げ)
+@function ceil-decimal ($number, $digits: 0) {
+    @return to-fixed($number, $digits, 'ceil');
+}
+
+// Floor (切り捨て)
+@function floor-decimal ($number, $digits: 0) {
+    @return to-fixed($number, $digits, 'floor');
+}
+
+@function to-fixed ($number, $digits: 0, $round: 'round') {
+    $n: 1;
+    // $number must be a number
+    @if type-of($number) != number {
+        @warn '#{ $number } is not a number.';
+        @return $number;
+    }
+    // $digits must be a unitless number
+    @if type-of($digits) != number {
+        @warn '#{ $digits } is not a number.';
+        @return $number;
+    } @else if not unitless($digits) {
+        @warn '#{ $digits } has a unit.';
+        @return $number;
+    }
+    @for $i from 1 through $digits {
+        $n: $n * 10;
+    }
+    @if $round == 'round' {
+        @return math.div( round( calc($number * $n)) , $n );
+    } @else if $round == 'ceil' {
+        @return math.div( ceil( calc($number * $n) ) , $n );
+    } @else if $round == 'floor' {
+        @return floor( math.div( calc($number * $n)) , $n);
+    } @else {
+        @warn '#{ $round } is undefined keyword.';
+        @return $number;
+    }
+}
+
+// round-decimal(0.333)    => 0
+// round-decimal(0.333, 1) => 0.3
+// round-decimal(0.333, 2) => 0.33
+// round-decimal(0.666)    => 1
+// round-decimal(0.666, 1) => 0.7
+// round-decimal(0.666, 2) => 0.67
+
+// ceil-decimal(0.333)     => 1
+// ceil-decimal(0.333, 1)  => 0.4
+// ceil-decimal(0.333, 2)  => 0.34
+// ceil-decimal(0.666)     => 1
+// ceil-decimal(0.666, 1)  => 0.7
+// ceil-decimal(0.666, 2)  => 0.67
+
+// floor-decimal(0.333)    => 0
+// floor-decimal(0.333, 1) => 0.3
+// floor-decimal(0.333, 2) => 0.33
+// floor-decimal(0.666)    => 0
+// floor-decimal(0.666, 1) => 0.6
+// floor-decimal(0.666, 2) => 0.66
+
+
+
+
+
+

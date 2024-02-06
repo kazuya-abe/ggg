@@ -1,0 +1,31 @@
+/* Author: Kazuya Abe (OSSI Inc.) */
+@charset "utf-8";
+@use "global" as *;
+@use "foundation";
+@use "layout";
+@use "component";
+.contentsBody{opacity: 0;}
+.windowloaded .contentsBody{opacity: 1; transition: 0.6s $easeOutQuad;}
+body{font-size:0; line-height:1; min-width: inherit; width: 100%; overflow-x: hidden; color:$font_color; font-family: $font; font-weight: 500;
+  img{width: 100%; height: auto; pointer-events: none;}
+}
+article {margin:0 auto; clear:both; zoom:1; position:relative; z-index:10; padding:0;}
+article:after,section:after,main {padding:0 0; min-height: 100%; display: block; font-size:0; line-height:1;}
+.wrap:after{content:''; clear:both; display:block;}
+.contentsBody {width: 100%; position: relative; z-index: 100;
+color: $font_color; min-height: 10vw;  margin: 0 auto;
+width: 100%; text-align: left;
+@include spFontSize(30);
+section,.wrap {clear:both; zoom:1; position:relative; z-index:100; text-align: left;} 
+.spItem {display:inline-block;}
+.pcItem {display:none;}
+}
+@include pcBreak(){
+.spItem {display:none !important;}
+.pcItem {display:inline-block !important;}
+body {position:static; z-index:0; min-width: $contents_width; overflow: visible; width: auto;}
+main {padding:0;position: relative; min-height: 320px;}
+.contentsBody {position: relative;  width: auto; font-size: 18px;
+section {margin-left: auto; margin-right: auto;}
+}
+}
