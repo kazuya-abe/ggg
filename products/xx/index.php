@@ -45,7 +45,7 @@
     <p class="kv_date">
     <picture>
         <source media="(min-width:1025px)" srcset="./assets/img/kv_date@pc.webp">
-        <img src="./assets/img/kv_date.webp" alt="2024年2月13日午前3時(JST)～2月20日午前3時(JST)">
+        <img src="./assets/img/kv_date.webp" alt="2024年2月23日午前3時(JST)～2月20日午前3時(JST)">
     </picture>
     </p>
     <picture>
